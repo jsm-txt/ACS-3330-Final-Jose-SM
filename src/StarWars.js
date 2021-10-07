@@ -8,7 +8,14 @@ function StarWars() {
   if (data === null) {
     loadData = <br></br>;
   } else {
-    loadData = data.name;
+    loadData = <div className="display">
+      <h3> {data.name}</h3>
+      <small>Heigh: {data.height}</small><br></br>
+      <small>Mass:{data.mass}</small><br></br>
+      <small>Hair: {data.hair_color}</small><br></br>
+      <small>Eyes Color:{data.eye_color}</small><br></br>
+
+    </div>;
   }
 
   async function fetchStarWars() {
@@ -18,13 +25,17 @@ function StarWars() {
     console.log(json)
 
     const name = json.name
-    const birth_year  = json.birth_year
-
+    const height = json.height
+    const mass = json.mass
+    const hair_color = json.hair_color
+    const eye_color = json.eye_color
 
     setData({
       name,
-      birth_year
-
+      height,
+      mass,
+      hair_color,
+      eye_color
     })
   }
 
@@ -43,7 +54,7 @@ function StarWars() {
       {/* {characterId} */}
       <br></br>
       {loadData}
-
+      
     </div>
   )
 }
