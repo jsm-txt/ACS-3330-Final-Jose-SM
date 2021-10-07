@@ -1,28 +1,57 @@
 import { useState } from 'react'
+import CharachterDisplay from './CharacterDisplay'
 
 function StarWars() {
   const [characterId, setCharacterId] = useState(0)
   const [data, setData] = useState(null)
+  const [list, setList] = useState(null)
 
   let loadData;
   if (data === null) {
     loadData = <br></br>;
-  } else {
+  } else if(list === null){
     loadData = <div className="display">
       <h3> {data.name}</h3>
       <small>Heigh: {data.height}</small><br></br>
       <small>Mass:{data.mass}</small><br></br>
       <small>Hair: {data.hair_color}</small><br></br>
-      <small>Eyes Color:{data.eye_color}</small><br></br>
-
+      <small>Eye Color:{data.eye_color}</small><br></br>
+      <form onSubmit={e => {
+          e.preventDefault();
+          setList([data]);
+        }}>
+        <button type='submit'>
+          Save
+        </button>
+      </form>
+    </div>;
+  }else{
+    loadData = <div className="display">
+      <h3> {data.name}</h3>
+      <small>Heigh: {data.height}</small><br></br>
+      <small>Mass:{data.mass}</small><br></br>
+      <small>Hair: {data.hair_color}</small><br></br>
+      <small>Eye Color:{data.eye_color}</small><br></br>
+      <form onSubmit={e => {
+          e.preventDefault();
+          setList([...list, data]);
+        }}>
+        <button type='submit'>
+          Save
+        </button>
+      </form>
     </div>;
   }
-
+  if(list !== null){
+    console.log(...list)
+  }
+  
+  
   async function fetchStarWars() {
     const path = `https://swapi.dev/api/people/${characterId}/`
     const res = await fetch(path)
     const json = await res.json()
-    console.log(json)
+    
 
     const name = json.name
     const height = json.height
@@ -41,6 +70,7 @@ function StarWars() {
 
   return (
     <div>
+      { list && <CharachterDisplay { ...list} /> }
       <form onSubmit={e => {
         e.preventDefault();
         fetchStarWars();
@@ -54,7 +84,7 @@ function StarWars() {
       {/* {characterId} */}
       <br></br>
       {loadData}
-      
+
     </div>
   )
 }
