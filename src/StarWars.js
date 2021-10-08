@@ -5,6 +5,7 @@ function StarWars() {
   const [characterId, setCharacterId] = useState(0)
   const [data, setData] = useState(null)
   const [list, setList] = useState(null)
+  const [home, setWorld] = useState(null)
 
   let loadData;
   if (data === null) {
@@ -43,7 +44,6 @@ function StarWars() {
     </div>;
   }
   if(list !== null){
-    console.log(...list)
   }
   
   
@@ -51,22 +51,38 @@ function StarWars() {
     const path = `https://swapi.dev/api/people/${characterId}/`
     const res = await fetch(path)
     const json = await res.json()
-    
 
     const name = json.name
     const height = json.height
     const mass = json.mass
     const hair_color = json.hair_color
     const eye_color = json.eye_color
+    const homeworldPath = json.homeworld
 
-    setData({
-      name,
-      height,
-      mass,
-      hair_color,
-      eye_color
-    })
+    async function fetchHomeworld(){
+      const path = homeworldPath
+      const res = await fetch(path)
+      const json = await res.json()
+      const world = json.name
+      setWorld(world);
+      console.log(world)
+      console.log(home)
+      setData({
+        name,
+        height,
+        mass,
+        hair_color,
+        eye_color,
+        world
+      })
+    }
+    fetchHomeworld()
+
+    
+    console.log(data)
+
   }
+  
 
   return (
     <div>
