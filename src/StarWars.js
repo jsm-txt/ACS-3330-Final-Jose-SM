@@ -9,15 +9,22 @@ function StarWars() {
   const [home, setWorld] = useState(null)
 
   let loadData;
+  const films = [<div> Films: </div>]
   if (data === null) {
     loadData = <br></br>;
   } else if(list === null){
+    for (let y in data.values ){
+      films.push(
+      <small> {data.values[y].title}, </small>
+      )
+    }
     loadData = <div className="display">
       <h3> {data.name}</h3>
       <small>Heigh: {data.height}</small><br></br>
       <small>Mass:{data.mass}</small><br></br>
       <small>Hair: {data.hair_color}</small><br></br>
       <small>Eye Color:{data.eye_color}</small><br></br>
+      {films}
       <form onSubmit={e => {
           e.preventDefault();
           setList([data]);
@@ -28,12 +35,18 @@ function StarWars() {
       </form>
     </div>;
   }else{
+    for (let y in data.values ){
+      films.push(
+      <small> {data.values[y].title}, </small>
+      )
+    }
     loadData = <div className="display">
       <h3> {data.name}</h3>
       <small>Heigh: {data.height}</small><br></br>
       <small>Mass:{data.mass}</small><br></br>
       <small>Hair: {data.hair_color}</small><br></br>
       <small>Eye Color:{data.eye_color}</small><br></br>
+      {films}
       <form onSubmit={e => {
           e.preventDefault();
           setList([...list, data]);
@@ -67,8 +80,6 @@ function StarWars() {
       const world = json.name
       setWorld(world);
       
-
-      const films  = json.films
       // Get an array of Promises, these are the responses
       const filmsRes = await Promise.all(json.films.map(film => fetch(film)))
 
